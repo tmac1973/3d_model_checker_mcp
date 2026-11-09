@@ -5,6 +5,7 @@
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { crc32, deflateSync } from 'node:zlib';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
 import type { CallToolResult } from '@modelcontextprotocol/sdk/types.js';
@@ -22,6 +23,29 @@ const FLASK = `export default function build(THREE) {
 }
 `;
 
+/** A 2 × 2 RGB PNG, so a texture has something real to decode. */
+function png(): Buffer {
+	const chunk = (type: string, data: Buffer) => {
+		const body = Buffer.concat([Buffer.from(type), data]);
+		const out = Buffer.alloc(12 + data.length);
+		out.writeUInt32BE(data.length, 0);
+		body.copy(out, 4);
+		out.writeUInt32BE(crc32(body), 8 + data.length);
+		return out;
+	};
+	const header = Buffer.alloc(13);
+	header.writeUInt32BE(2, 0);
+	header.writeUInt32BE(2, 4);
+	header.set([8, 2, 0, 0, 0], 8);
+	const rows = Buffer.from([0, 200, 120, 40, 90, 60, 20, 0, 90, 60, 20, 200, 120, 40]);
+	return Buffer.concat([
+		Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]),
+		chunk('IHDR', header),
+		chunk('IDAT', deflateSync(rows)),
+		chunk('IEND', Buffer.alloc(0))
+	]);
+}
+
 const MODULES: Record<string, string> = {
 	'flask.js': FLASK,
 	'throws.js': `export default function build(THREE) {\n  const a = 1;\n  missing.call();\n}\n`,
@@ -29,7 +53,8 @@ const MODULES: Record<string, string> = {
 	// The host's bindings: across the sandbox's origin, and on its own window.
 	'parent.js': `export default async function build() {\n  return parent.__check3dRead('flask.js');\n}\n`,
 	'own.js': `export default async function build() {\n  await window.__check3dRead('flask.js');\n}\n`,
-	'loop.js': `export default function build() {\n  while (true) {}\n}\n`
+	'loop.js': `export default function build() {\n  while (true) {}\n}\n`,
+	'crate.js': `export default function build(THREE, kit) {\n  const map = kit.texture('tex/wood.png');\n  const crate = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.5, 0.5), new THREE.MeshStandardMaterial({ map }));\n  crate.name = 'Crate';\n  return crate;\n}\n`
 };
 
 let base: string;
@@ -42,6 +67,8 @@ beforeAll(async () => {
 	root = join(base, 'root');
 	mkdirSync(root);
 	for (const [name, source] of Object.entries(MODULES)) writeFileSync(join(root, name), source);
+	mkdirSync(join(root, 'tex'));
+	writeFileSync(join(root, 'tex', 'wood.png'), png());
 	writeFileSync(join(base, 'outside.js'), FLASK);
 	client = new Client({ name: 'test', version: '0' });
 	await client.connect(
@@ -83,6 +110,12 @@ describe('check_3d over MCP', () => {
 		expect(r.images).toHaveLength(1);
 		expect(r.images[0]).toMatchObject({ mimeType: 'image/png' });
 		expect(readFileSync(join(root, 'flask.glb')).subarray(0, 4).toString()).toBe('glTF');
+	});
+
+	it('decodes a PNG the module names and embeds it in the GLB', async () => {
+		const r = await call({ path: 'crate.js' });
+		expect(r.text).toMatch(/^Wrote crate\.glb\./);
+		expect(readFileSync(join(root, 'crate.glb')).toString('latin1')).toContain('image/png');
 	});
 
 	it('checks a .glb without writing it', async () => {
