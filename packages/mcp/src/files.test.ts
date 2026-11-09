@@ -28,7 +28,8 @@ describe('read', () => {
 		expect(text(await files.read(join(root, 'a.js')))).toBe('inside');
 	});
 
-	it('refuses a file above the root', async () => {
+	it('refuses a path above the root whether or not it exists', async () => {
+		await expect(files.read('../nope.js')).rejects.toThrow(/outside/);
 		await expect(files.read('../secret.js')).rejects.toThrow(/outside/);
 		await expect(files.read(join(base, 'secret.js'))).rejects.toThrow(/outside/);
 	});
