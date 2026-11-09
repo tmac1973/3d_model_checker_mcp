@@ -1,0 +1,8 @@
+{
+	"mcpServers": {
+		"check-3d": {
+			"command": "node",
+			"args": ["packages/mcp/dist/cli.js", "--root", "playground"]
+		}
+	}
+}
