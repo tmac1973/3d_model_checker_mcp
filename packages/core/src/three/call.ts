@@ -4,7 +4,7 @@
  * and any other host supply the files, the sandboxed frame and the way the
  * model sees the sheet (`Check3dHost`). No model, no network, no Tauri.
  */
-import { checkGlb, type CheckOptions } from '../glb/check.ts';
+import { checkGlb, type CheckOptions, type GlbProblems } from '../glb/check.ts';
 import type { ClipFlags } from '../glb/motion.ts';
 import type { GlbReport } from '../glb/report.ts';
 import type { FrameRunner } from './frame.ts';
@@ -301,14 +301,7 @@ export async function runCheck3d(
 
 	host.onProgress?.('Checking');
 	const checked = await checkGlb(got.glb, a.opts);
-	if ('problems' in checked) {
-		return {
-			text: failed(
-				checked.problems.map((p) => `- ${p}`),
-				checked.argument ? `the ${checked.argument} argument` : a.path
-			)
-		};
-	}
+	if ('problems' in checked) return { text: checkFailed(checked, a.path) };
 
 	const target = MODULE.test(a.path) || checked.normalisedFrom ? a.out : undefined;
 	if (target) {
@@ -326,6 +319,15 @@ export async function runCheck3d(
 		...(sees ? [sheetNote(checked)] : [])
 	];
 	return { text: lines.join('\n'), png: checked.png ?? undefined };
+}
+
+/** What a failed check says: its problems, and the argument or file to fix. */
+function checkFailed(checked: GlbProblems, path: string): string {
+	const fix = checked.argument ? `the ${checked.argument} argument` : path;
+	return failed(
+		checked.problems.map((p) => `- ${p}`),
+		fix
+	);
 }
 
 /** The line naming `clips` entries the GLB has no clip for, so a typo isn't silently ignored. */
