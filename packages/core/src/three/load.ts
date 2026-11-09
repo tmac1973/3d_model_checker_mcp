@@ -13,7 +13,7 @@ import { bytesToBase64 } from '../utils/base64.ts';
 import { errMessage } from '../utils/error.ts';
 
 export const SHEET_NOTE =
-	'The render sheet is attached (front, right, back, left, top, three-quarter, over a floor grid): compare it with what you meant to make before you finish.';
+	'The render sheet is attached (front, right, back, left, top, three-quarter, over a floor grid; "right" is seen from +x, the model\'s own left): compare it with what you meant to make before you finish.';
 /** The note for a close-up sheet of `label`. */
 export const closeUpNote = (label: string) =>
 	`The close-up of ${label} is attached (the same six views, framed on it and what is near it): check its detail before you finish.`;

@@ -43,7 +43,7 @@ export interface Check3dHost {
 /** A call's reply: an error the host marks as one, or text and the sheet. */
 export type Check3dReply = { error: string } | { text: string; png?: string };
 
-export const CHECK_3D_DESCRIPTION = `Build a 3D model from a Three.js module you write, or check a .glb made another way (Blender). Returns size, parts and problems, and a render sheet (front, right, back, left, top, three-quarter, over a floor grid). A module imports nothing; its default export gets THREE (three.js) and kit (mergeGeometries, mergeVertices, RoundedBoxGeometry, ConvexGeometry, ParametricGeometry, createNoise(seed) → {noise2, noise3}, random(seed)) and returns an Object3D, or { object, animations } for clips:
+export const CHECK_3D_DESCRIPTION = `Build a 3D model from a Three.js module you write, or check a .glb made another way (Blender). Returns size, parts and problems, and a render sheet (front, right, back, left, top, three-quarter, over a floor grid whose spacing is labelled). View names are where the camera stands as you face the model's front: "right" looks from +x and so shows the model's own left side. A module imports nothing; its default export gets THREE (three.js) and kit (mergeGeometries, mergeVertices, RoundedBoxGeometry, ConvexGeometry, ParametricGeometry, createNoise(seed) → {noise2, noise3}, random(seed)) and returns an Object3D, or { object, animations } for clips:
 \`\`\`js
 export default function build(THREE, kit) {
   const asset = new THREE.Group();
@@ -56,7 +56,7 @@ export default function build(THREE, kit) {
 }
 \`\`\`
 Animate with tracks on named nodes, e.g. new THREE.QuaternionKeyframeTrack('Shin_L.quaternion', [0, 0.5], [...]); every call checks each clip, and clip: "Walk" shows it moving. A walk or run plays in place: the body stays over the origin and planted feet move back (-z) at one steady speed. A loop ends on its first pose at the same speed; a one-shot starts and ends at rest. Names decide which clips loop (Idle, Walk, Run, Fly, Hover, Swim) and which may leave the floor (runs, jumps, flight); pass clips to say otherwise. Clips may live in their own module, passed as anim: its default export animate(THREE, object, kit) gets the built object and returns an array of AnimationClip. kit.texture('textures/bark.png') gives a Texture from a PNG next to the module; pass the path as a string literal. To change an existing clip, call check_3d with clip on it first, before editing, and after each change; look at poses this way, not with scripts of your own.
-Name every mesh. Units are metres, y is up, the front faces +z.`;
+Name every mesh and material. Units are metres, y is up, the front faces +z.`;
 
 /** The JSON schema of `check_3d`'s arguments. */
 export const CHECK_3D_PARAMETERS = {
@@ -305,7 +305,7 @@ export async function runCheck3d(
 		return {
 			text: failed(
 				checked.problems.map((p) => `- ${p}`),
-				a.path
+				checked.argument ? `the ${checked.argument} argument` : a.path
 			)
 		};
 	}

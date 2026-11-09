@@ -40,6 +40,8 @@ export async function rootFiles(rootPath: string): Promise<RootFiles> {
 		root,
 		async read(path) {
 			const full = resolve(root, path);
+			// Before looking: a path outside gets the same answer whether or not it exists.
+			if (!inside(root, full)) throw new Error(outside(path));
 			let real: string;
 			try {
 				real = await realpath(full);
@@ -52,6 +54,7 @@ export async function rootFiles(rootPath: string): Promise<RootFiles> {
 		async write(path, bytes) {
 			const full = resolve(root, path);
 			if (!/\.glb$/i.test(full)) return 'Only .glb files can be written.';
+			if (!inside(root, full)) return outside(path);
 			if (!inside(root, await existingAncestor(dirname(full)))) return outside(path);
 			try {
 				if ((await lstat(full)).isSymbolicLink())
