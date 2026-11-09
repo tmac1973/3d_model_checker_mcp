@@ -2,6 +2,9 @@
  * Seeded randomness for build modules (`check_3d`'s kit): the same seed draws
  * the same rock, bark or terrain every run, so an asset can be rebuilt and
  * compared. `random` is mulberry32; `createNoise` is 2D/3D simplex noise.
+ * Both algorithms are public domain: mulberry32 is Tommy Ettinger's, and the
+ * simplex noise follows Stefan Gustavson's reference ("Simplex noise
+ * demystified", 2005).
  */
 
 /** A seeded generator of numbers in [0, 1). */
