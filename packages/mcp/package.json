@@ -1,0 +1,27 @@
+{
+	"name": "3d_model_checker_mcp",
+	"version": "0.1.0",
+	"description": "An MCP server with one tool, check_3d: build a Three.js module into a GLB, or check a .glb, and get a size, parts and motion report with a six-view render sheet.",
+	"license": "MIT",
+	"type": "module",
+	"bin": {
+		"3d_model_checker_mcp": "dist/cli.js"
+	},
+	"files": [
+		"dist"
+	],
+	"engines": {
+		"node": ">=22"
+	},
+	"scripts": {
+		"build": "tsc -p tsconfig.build.json && vite build --config vite.page.config.ts",
+		"check": "tsc --noEmit",
+		"test": "vitest run"
+	},
+	"dependencies": {
+		"3d_model_checker_core": "0.1.0",
+		"@modelcontextprotocol/sdk": "^1.32.0",
+		"playwright-core": "1.65.0",
+		"three": "0.187.0"
+	}
+}
