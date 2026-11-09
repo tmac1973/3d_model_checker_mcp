@@ -7,7 +7,7 @@
  * doesn't grow with its length. Leaves the scene in its rest pose.
  */
 import type { AnimationClip, Object3D } from 'three';
-import type { LoadedGlb, Three } from '#lib/glb/load.ts';
+import type { LoadedGlb, Three } from './load.ts';
 import {
 	median,
 	meshesOf,
@@ -17,12 +17,12 @@ import {
 	poser,
 	strideFor,
 	type Part
-} from '#lib/glb/motionPose.ts';
-import { contactTracker, jointTracker, PLANTED, slideTracker } from '#lib/glb/motionParts.ts';
-import { trackChecks, type TrackChecks } from '#lib/glb/motionTracks.ts';
-import { rigOf, trackNodes, type Rig } from '#lib/glb/rig.ts';
-import { weldFor } from '#lib/glb/report.ts';
-import { AIRBORNE_CLIP, LOOPING_CLIP } from '#lib/glb/clipNames.ts';
+} from './motionPose.ts';
+import { contactTracker, jointTracker, PLANTED, slideTracker } from './motionParts.ts';
+import { trackChecks, type TrackChecks } from './motionTracks.ts';
+import { rigOf, trackNodes, type Rig } from './rig.ts';
+import { weldFor } from './report.ts';
+import { AIRBORNE_CLIP, LOOPING_CLIP } from './clipNames.ts';
 
 export const ANALYSIS_FRAMES = 16;
 /** Through the floor by more than this (m) is a problem. */

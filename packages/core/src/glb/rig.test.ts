@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { describe, expect, it } from 'vitest';
-import { clip, pivotRig, skinnedLeg, turn } from '#lib/glb/motionFixtures.ts';
+import { clip, pivotRig, skinnedLeg, turn } from './motionFixtures.ts';
 import { rigOf, trackNodes } from './rig.ts';
 
 describe('rigOf', () => {

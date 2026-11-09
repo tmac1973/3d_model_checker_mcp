@@ -3,7 +3,7 @@
  * leg, each with clips built from plain keyframes. Test code only.
  */
 import * as THREE from 'three';
-import type { LoadedGlb } from '#lib/glb/load.ts';
+import type { LoadedGlb } from './load.ts';
 
 export function box(
 	name: string,

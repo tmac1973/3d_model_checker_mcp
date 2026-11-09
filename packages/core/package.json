@@ -1,0 +1,41 @@
+{
+	"name": "3d_model_checker_core",
+	"version": "0.1.0",
+	"description": "Build Three.js modules into GLBs and check them: a size, parts and motion report, glTF validation and a six-view render sheet. Runs in any browser page.",
+	"license": "MIT",
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		},
+		"./glb/*": {
+			"types": "./dist/glb/*.d.ts",
+			"default": "./dist/glb/*.js"
+		},
+		"./three/*": {
+			"types": "./dist/three/*.d.ts",
+			"default": "./dist/three/*.js"
+		},
+		"./three-kit.js": "./dist/three-kit.js"
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "tsc -p tsconfig.build.json && node scripts/build-three-kit.mjs",
+		"check": "tsc --noEmit",
+		"test": "vitest run"
+	},
+	"peerDependencies": {
+		"three": ">=0.187.0 <0.188.0"
+	},
+	"dependencies": {
+		"gltf-validator": "2.0.0-dev.3.10"
+	},
+	"devDependencies": {
+		"@types/three": "0.187.0",
+		"jsdom": "^31.0.0",
+		"three": "0.187.0"
+	}
+}

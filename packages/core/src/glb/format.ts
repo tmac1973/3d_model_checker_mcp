@@ -2,7 +2,7 @@
  * A GLB report as the lines a model reads: problems first, then size, parts,
  * warnings, materials and clips. Long lists are cut so the whole stays short.
  */
-import type { Bounds, GlbReport } from '#lib/glb/report.ts';
+import type { Bounds, GlbReport } from './report.ts';
 
 export interface FormatOptions {
 	/** The bounds before normalisation, when the GLB was normalised. */

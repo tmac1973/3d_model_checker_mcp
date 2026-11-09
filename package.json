@@ -1,0 +1,24 @@
+{
+	"name": "3d_model_checker",
+	"private": true,
+	"type": "module",
+	"license": "MIT",
+	"workspaces": [
+		"packages/core",
+		"packages/mcp"
+	],
+	"scripts": {
+		"build": "npm run build --workspaces",
+		"check": "npm run check --workspaces",
+		"test": "npm run test --workspaces",
+		"format": "prettier --write .",
+		"format:check": "prettier --check ."
+	},
+	"devDependencies": {
+		"@types/node": "^22.0.0",
+		"prettier": "^3.9.10",
+		"typescript": "~6.0.0",
+		"vite": "^8.0.12",
+		"vitest": "^5.0.3"
+	}
+}

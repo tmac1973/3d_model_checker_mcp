@@ -5,8 +5,8 @@
  * scene and draws nothing.
  */
 import type { Material, Mesh, Object3D } from 'three';
-import type { LoadedGlb, Three } from '#lib/glb/load.ts';
-import type { Vec3 } from '#lib/glb/report.ts';
+import type { LoadedGlb, Three } from './load.ts';
+import type { Vec3 } from './report.ts';
 
 /** Past this many draw calls, a merge that saves a quarter of them is suggested. */
 export const MANY_DRAW_CALLS = 32;

@@ -2,8 +2,8 @@
  * Scale a GLB to a height and stand it on the floor, then export it again.
  * Off unless asked: a model passes `height` and/or `ground`.
  */
-import type { Bounds, Vec3 } from '#lib/glb/report.ts';
-import type { LoadedGlb, Three } from '#lib/glb/load.ts';
+import type { Bounds, Vec3 } from './report.ts';
+import type { LoadedGlb, Three } from './load.ts';
 
 export interface NormaliseOptions {
 	/** Scale uniformly so the asset is this many metres tall. */

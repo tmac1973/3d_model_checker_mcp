@@ -5,8 +5,8 @@
  * A close-up frames one part the same way, and draws only what is near it.
  */
 import type { Mesh, Object3D } from 'three';
-import type { Three } from '#lib/glb/load.ts';
-import type { Bounds, Vec3 } from '#lib/glb/report.ts';
+import type { Three } from './load.ts';
+import type { Bounds, Vec3 } from './report.ts';
 
 export const CELL = 400;
 export const COLUMNS = 3;

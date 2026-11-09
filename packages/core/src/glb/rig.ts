@@ -4,8 +4,8 @@
  * editor's model viewer.
  */
 import type { AnimationClip, Object3D, SkinnedMesh } from 'three';
-import type { Three } from '#lib/glb/load.ts';
-import { isSkinned, meshesOf } from '#lib/glb/motionPose.ts';
+import type { Three } from './load.ts';
+import { isSkinned, meshesOf } from './motionPose.ts';
 
 export interface Rig {
 	rig: 'skinned' | 'rigid';

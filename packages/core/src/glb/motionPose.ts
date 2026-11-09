@@ -5,7 +5,7 @@
  * follows the pose, never the rest shape.
  */
 import type { AnimationClip, Mesh, Object3D, SkinnedMesh } from 'three';
-import type { Three } from '#lib/glb/load.ts';
+import type { Three } from './load.ts';
 
 /** A frame reads at most about this many vertices. */
 export const MAX_FRAME_VERTICES = 20_000;

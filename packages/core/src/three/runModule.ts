@@ -11,13 +11,8 @@
  * decoded into textures before either module runs.
  * Errors carry their line in the model's own file, and which file that is.
  */
-import { threeKitUrl } from '#lib/helpers/three/kitUrl.ts';
-import {
-	LATE_MS,
-	type FrameControl,
-	type FrameRunner,
-	type RunError
-} from '#lib/helpers/three/frame.ts';
+import { threeKitUrl } from './kitUrl.ts';
+import { LATE_MS, type FrameControl, type FrameRunner, type RunError } from './frame.ts';
 
 /** A run's error, with the module it came from: the build module or the animation module. */
 export interface ModuleError extends RunError {

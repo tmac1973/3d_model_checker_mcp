@@ -5,15 +5,15 @@
  * `check_3d` both come through here.
  */
 import type { AnimationClip } from 'three';
-import { formatReport } from '#lib/glb/format.ts';
-import { disposeTree, loadGlb, type LoadedGlb, type Three } from '#lib/glb/load.ts';
-import { normaliseGlb, type NormaliseOptions } from '#lib/glb/normalise.ts';
-import { inspectGlb, type Bounds, type GlbReport } from '#lib/glb/report.ts';
-import { inspectMotion, type MotionOptions } from '#lib/glb/motion.ts';
-import { formatClip, formatClipLines } from '#lib/glb/motionFormat.ts';
-import { renderMotionSheet } from '#lib/glb/motionSheet.ts';
-import { closeUpBounds, renderSheet } from '#lib/glb/sheet.ts';
-import { validateGlb } from '#lib/glb/validate.ts';
+import { formatReport } from './format.ts';
+import { disposeTree, loadGlb, type LoadedGlb, type Three } from './load.ts';
+import { normaliseGlb, type NormaliseOptions } from './normalise.ts';
+import { inspectGlb, type Bounds, type GlbReport } from './report.ts';
+import { inspectMotion, type MotionOptions } from './motion.ts';
+import { formatClip, formatClipLines } from './motionFormat.ts';
+import { renderMotionSheet } from './motionSheet.ts';
+import { closeUpBounds, renderSheet } from './sheet.ts';
+import { validateGlb } from './validate.ts';
 
 export interface CheckOptions extends NormaliseOptions, MotionOptions {
 	maxTriangles?: number;

@@ -1,13 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-vi.mock('@tauri-apps/api/core', async () =>
-	(await import('#lib/testing/invoke.ts')).mockTauriCore()
-);
-
-import { invoke } from '@tauri-apps/api/core';
-
-import { LATE_MS } from '#lib/helpers/three/frame.ts';
-import { runHiddenFrame } from '#lib/sandbox/hiddenFrame.ts';
+import { LATE_MS } from './frame.ts';
+import { runSrcdocFrame } from './srcdocFrame.ts';
 import { lineOf, modulePage, runBuildModule, type ModuleRunResult } from './runModule';
 
 function frame() {
@@ -22,7 +16,7 @@ function frame() {
 async function start(opts: Partial<Parameters<typeof runBuildModule>[1]> = {}) {
 	let settled: ModuleRunResult | Error | undefined;
 	const run = runBuildModule('export default (T) => new T.Group();', {
-		runFrame: runHiddenFrame,
+		runFrame: runSrcdocFrame,
 		...opts
 	}).then(
 		(r) => (settled = r),
@@ -34,8 +28,6 @@ async function start(opts: Partial<Parameters<typeof runBuildModule>[1]> = {}) {
 
 beforeEach(() => {
 	vi.useFakeTimers();
-	vi.mocked(invoke).mockReset();
-	vi.mocked(invoke).mockResolvedValue('doc-1');
 });
 
 afterEach(() => {
@@ -273,11 +265,9 @@ describe('lineOf', () => {
 });
 
 describe('runBuildModule', () => {
-	it('registers the page and resolves with the GLB after late errors', async () => {
+	it('runs the page in a sandboxed frame and resolves with the GLB after late errors', async () => {
 		const { run, f, settled } = await start();
-		expect(invoke).toHaveBeenCalledWith('artifact_register', {
-			html: expect.stringContaining('window.__hxSource')
-		});
+		expect(f.iframe.srcdoc).toContain('window.__hxSource');
 		expect(f.iframe.getAttribute('sandbox')).toBe('allow-scripts');
 		f.send({ t: 'hx-glb', bytes: new Uint8Array([103, 108, 84, 70]).buffer });
 		f.send({ t: 'hx-err', kind: 'error', message: 'late', line: 4 });
@@ -317,9 +307,7 @@ describe('runBuildModule', () => {
 
 	it('keeps which module an error came from', async () => {
 		const { run, f } = await start({ anim: 'export default () => [];' });
-		expect(invoke).toHaveBeenCalledWith('artifact_register', {
-			html: expect.stringContaining('window.__hxAnim = "export default () => [];"')
-		});
+		expect(f.iframe.srcdoc).toContain('window.__hxAnim = "export default () => [];"');
 		f.send({ t: 'hx-err', message: 'x is not defined', line: 3, file: 'anim' });
 		f.send({ t: 'hx-end' });
 		await vi.advanceTimersByTimeAsync(LATE_MS);

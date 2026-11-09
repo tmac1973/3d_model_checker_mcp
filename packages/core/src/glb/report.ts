@@ -6,8 +6,8 @@
  * nothing, so it runs on anyone's GLB without running anyone's code.
  */
 import type { BufferGeometry, Material, Mesh, Object3D, Texture } from 'three';
-import type { LoadedGlb, Three } from '#lib/glb/load.ts';
-import { drawCallsOf, facingOf, unnamedMaterials, worthMerging } from '#lib/glb/gameReady.ts';
+import type { LoadedGlb, Three } from './load.ts';
+import { drawCallsOf, facingOf, unnamedMaterials, worthMerging } from './gameReady.ts';
 
 export type Vec3 = [number, number, number];
 

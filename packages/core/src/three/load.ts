@@ -5,21 +5,12 @@
  * model is judged the same way whichever asks. Also the report lines both
  * write about a run, so their text matches.
  */
-import { resolveShellPath } from '#lib/utils/shellPath.ts';
-import type { FrameRunner } from '#lib/helpers/three/frame.ts';
-import {
-	runBuildModule,
-	type ClampedColours,
-	type ModuleError
-} from '#lib/helpers/three/runModule.ts';
-import {
-	MAX_TEXTURE_BYTES,
-	MAX_TEXTURES,
-	textureRefs,
-	texturePath
-} from '#lib/helpers/three/textures.ts';
-import { bytesToBase64 } from '#lib/utils/base64.ts';
-import { errMessage } from '#lib/utils/error.ts';
+import { resolveShellPath } from '../utils/shellPath.ts';
+import type { FrameRunner } from './frame.ts';
+import { runBuildModule, type ClampedColours, type ModuleError } from './runModule.ts';
+import { MAX_TEXTURE_BYTES, MAX_TEXTURES, textureRefs, texturePath } from './textures.ts';
+import { bytesToBase64 } from '../utils/base64.ts';
+import { errMessage } from '../utils/error.ts';
 
 export const SHEET_NOTE =
 	'The render sheet is attached (front, right, back, left, top, three-quarter, over a floor grid): compare it with what you meant to make before you finish.';

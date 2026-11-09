@@ -2,13 +2,7 @@
  * The clip checks as text: one line per clip for every report, and one
  * clip's detail when the model asked to see it move.
  */
-import {
-	FLOOR_LIFT,
-	FLOOR_SINK,
-	LOOP_SEAM,
-	type ClipMotion,
-	type TimeSpan
-} from '#lib/glb/motion.ts';
+import { FLOOR_LIFT, FLOOR_SINK, LOOP_SEAM, type ClipMotion, type TimeSpan } from './motion.ts';
 
 /** At most this many of each kind of finding per clip. */
 const EACH = 6;

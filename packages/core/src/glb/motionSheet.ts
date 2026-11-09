@@ -6,7 +6,7 @@
  * `renderMotionSheet` draws it.
  */
 import type { AnimationClip, Material, Object3D } from 'three';
-import type { Three } from '#lib/glb/load.ts';
+import type { Three } from './load.ts';
 import {
 	meshesOf,
 	partCentre,
@@ -15,10 +15,10 @@ import {
 	poser,
 	strideFor,
 	type Poser
-} from '#lib/glb/motionPose.ts';
-import { sampleTimes } from '#lib/glb/motion.ts';
-import type { Vec3 } from '#lib/glb/report.ts';
-import { SHEET_HEIGHT, SHEET_WIDTH } from '#lib/glb/sheet.ts';
+} from './motionPose.ts';
+import { sampleTimes } from './motion.ts';
+import type { Vec3 } from './report.ts';
+import { SHEET_HEIGHT, SHEET_WIDTH } from './sheet.ts';
 
 export const FRAMES = 8;
 const STRIP_HEIGHT = 200;

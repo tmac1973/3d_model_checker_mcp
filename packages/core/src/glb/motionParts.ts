@@ -5,10 +5,10 @@
  * tracker: set up at rest, fed every sampled frame, then asked for findings.
  */
 import type { Mesh, Object3D, SkinnedMesh } from 'three';
-import type { Three } from '#lib/glb/load.ts';
-import type { ClipMotion, TimeSpan } from '#lib/glb/motion.ts';
-import { forEachWorldVertex, isSkinned, median, posedBox, type Part } from '#lib/glb/motionPose.ts';
-import { isClosedOpaque, RAY } from '#lib/glb/report.ts';
+import type { Three } from './load.ts';
+import type { ClipMotion, TimeSpan } from './motion.ts';
+import { forEachWorldVertex, isSkinned, median, posedBox, type Part } from './motionPose.ts';
+import { isClosedOpaque, RAY } from './report.ts';
 
 /** Vertices sampled from a part to test whether it is inside another. */
 const INSIDE_SAMPLES = 16;

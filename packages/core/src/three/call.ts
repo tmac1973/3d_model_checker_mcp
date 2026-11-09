@@ -4,16 +4,12 @@
  * and any other host supply the files, the sandboxed frame and the way the
  * model sees the sheet (`Check3dHost`). No model, no network, no Tauri.
  */
-import { checkGlb, type CheckOptions } from '#lib/glb/check.ts';
-import type { ClipFlags } from '#lib/glb/motion.ts';
-import type { GlbReport } from '#lib/glb/report.ts';
-import type { FrameRunner } from '#lib/helpers/three/frame.ts';
-import type { ClampedColours } from '#lib/helpers/three/runModule.ts';
-import {
-	defaultGlbPath,
-	MODEL_FILE as MODEL,
-	MODULE_FILE as MODULE
-} from '#lib/helpers/three/output.ts';
+import { checkGlb, type CheckOptions } from '../glb/check.ts';
+import type { ClipFlags } from '../glb/motion.ts';
+import type { GlbReport } from '../glb/report.ts';
+import type { FrameRunner } from './frame.ts';
+import type { ClampedColours } from './runModule.ts';
+import { defaultGlbPath, MODEL_FILE as MODEL, MODULE_FILE as MODULE } from './output.ts';
 import {
 	clampedLine,
 	closeUpNote,
@@ -25,8 +21,8 @@ import {
 	runFailure,
 	SHEET_NOTE,
 	type LoadIo
-} from '#lib/helpers/three/load.ts';
-import { resolveShellPath } from '#lib/utils/shellPath.ts';
+} from './load.ts';
+import { resolveShellPath } from '../utils/shellPath.ts';
 
 /** What a host gives a call: its files, its frame and its model's eyes. */
 export interface Check3dHost {
